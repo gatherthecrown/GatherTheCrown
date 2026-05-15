@@ -1,241 +1,186 @@
-# Gather The Crown: Creats & Foes
+# Game Development Tools
 
-**Gather The Crown: Creats & Foes** is a multiplayer, browser‑based action RPG built for a monorepo workflow.  The project ships with a minimal yet complete "vertical slice" of the game loop, featuring a story boss, a randomized forest run, basic crafting and a functional HUD that showcases the artifact frame concept.
+This directory contains development tools for **Gather The Crown: Creats & Foes**.
 
----
+## Tools Overview
 
-## Contents
+### 1. Asset Validator (`asset_validator.py`)
+Validates game assets against design specifications.
 
-- [Vision](#vision)
-- [Feature Pillars](#feature-pillars)
-- [Repository Structure](#repository-structure)
-- [Installation](#installation)
-- [Running the Game](#running-the-game)
-- [Database](#database)
-- [Architecture Overview](#architecture-overview)
-- [Packages](#packages)
-- [Networking](#networking)
-- [Scenes](#scenes)
-- [Data Schema](#data-schema)
-- [Content Pipeline](#content-pipeline)
-- [Balancing Knobs](#balancing-knobs)
-- [Accessibility](#accessibility)
-- [Testing & Telemetry Stubs](#testing--telemetry-stubs)
-- [Roadmap](#roadmap)
-- [Smoke Test (Quick Walkthrough)](#smoke-test-quick-walkthrough)
+**Features:**
+- Checks directory structure
+- Validates sprite dimensions (64x64, 128x128, etc.)
+- Verifies audio formats (OGG, WAV)
+- Checks naming conventions (lowercase, underscores)
 
----
-
-## Vision
-
-A story‑first online action RPG where heroes bond with mythical companions called **creats**.  Players reclaim walled kingdoms, assemble elemental crowns and eventually free the Crownbound Reignlords.
-
-The vertical slice features:
-
-- One creat species: **Pyrogryph** (Fire).
-- One story boss: **The Ember Reignlord** (becomes an ally if defeated with an Ice debuff).
-- One crown recipe: **Gold Base + Sapphire Gem**.
-- Basic combat and a functional HUD.
-- Randomized forest run, Haven base, first Crown Trial, district stub and a simple racing track.
-
----
-
-## Feature Pillars
-
-1. **Bonded Combat** – Hero + creat synergy. Bond tiers 50/75/100% unlock combo bonuses.
-2. **Crown Collection** – Assemble crowns from metal bases, gems and shards to unlock buffs.
-3. **Reclaim & Restore** – Clear districts inside walled kingdoms to reclaim territory.
-4. **Replayable Wilds** – Forest zones shuffle layout and pickups per run using a seed.
-5. **Fair Economy** – Gold, shards and gems. Stub store UI for development only.
-
----
-
-## Repository Structure
-
-```
-/
-README.md                – This document
-pnpm-workspace.yaml      – PNPM workspace config
-package.json             – Root scripts (dev/build/start/db)
-tsconfig.base.json       – Shared TS config
-.eslintrc.cjs            – ESLint configuration
-.prettierrc              – Prettier rules
-
-packages/
-  shared                 – TypeScript definitions and cross‑platform utilities
-  server                 – Colyseus server + Prisma + content
-  client                 – Phaser 3 client with Vite build
+**Usage:**
+```bash
+python tools/asset_validator.py
 ```
 
----
+**Requirements:**
+- Python 3.7+
+- PIL/Pillow (optional, for image dimension checks)
+
+### 2. Crown Calculator (`crown_calculator.py`)
+Calculates crown statistics, requirements, and completion rewards.
+
+**Features:**
+- Calculate stats for any metal + gem combination
+- List all crown types by game mode
+- Calculate completion rewards
+- Display formatted crown cards
+
+**Usage:**
+```bash
+python tools/crown_calculator.py
+```
+
+**Example Output:**
+```
+╔══════════════════════════════════════════════════════════╗
+║              Story Mode - Sovereign's Diadem             ║
+╠══════════════════════════════════════════════════════════╣
+║  Metal: Starforged                                       ║
+║  Gems: Painite, Alexandrite, Jeremejevite               ║
+╠══════════════════════════════════════════════════════════╣
+║  STATS                                                   ║
+║  • Attack Bonus:    +175                                 ║
+║  • Defense Bonus:   +152                                 ║
+║  • Speed Bonus:     +90                                  ║
+║  • Crit Bonus:      +55.0%                               ║
+║  • Durability:      70 battles                           ║
+╠══════════════════════════════════════════════════════════╣
+║  Total Value: 40,000 GC                                  ║
+╚══════════════════════════════════════════════════════════╝
+```
+
+### 3. Content Tracker (`content_tracker.py`)
+Tracks implementation progress of all game content.
+
+**Features:**
+- Track progress by category (characters, creats, bosses, etc.)
+- Generate progress reports with ASCII progress bars
+- Save/load progress data (JSON)
+- MVP recommendations
+
+### 4. Supabase Full Backup (`supabase_full_backup.mjs`)
+Uploads the full Gather The Crown workspace snapshot to a Supabase Storage bucket.
+
+Key behavior:
+- Uploads all files recursively from project root.
+- Writes and uploads a backup manifest JSON.
+- Uppercases remote object paths and folder names by default for readability.
+- Replaces spaces and special characters in remote paths with underscores.
+- Uses upsert mode so reruns refresh changed files.
+
+Environment variables required for upload:
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY`
+
+Recommended process:
+
+```bash
+# 1) Preview file count, size, and ETA (no upload)
+pnpm backup:supabase:dry
+
+# 2) Upload backup snapshot
+pnpm backup:supabase
+```
+
+Optional flags:
+
+```bash
+# Include everything (including node_modules/dist)
+node tools/supabase_full_backup.mjs --include-everything true
+
+# Keep original case remotely
+node tools/supabase_full_backup.mjs --uppercase false
+
+# Custom bucket and prefix
+node tools/supabase_full_backup.mjs --bucket GTC_ARCHIVE --prefix MAY_2026_FULL
+```
+
+### 5. Supabase Game Database Bootstrap
+
+Game database setup now includes a direct SQL bootstrap file:
+
+- `supabase/migrations/001_gtc_core.sql`
+
+Use this file in Supabase SQL Editor to create the core game schema (heroes, creats, inventory, bosses, crowns, quests, kingdom progress, achievements, and RLS starter policies).
+
+Then configure:
+
+- `packages/server/.env` with `DATABASE_URL`, `SUPABASE_URL`, and `SUPABASE_SERVICE_ROLE_KEY`
+
+And run:
+
+```bash
+pnpm --filter @game/server db:generate
+pnpm --filter @game/server db:push
+pnpm --filter @game/server db:seed
+```
+
+**Usage:**
+```bash
+# Generate initial report
+python tools/content_tracker.py
+
+# Mark items complete (in code)
+tracker = ContentTracker()
+tracker.mark_complete("ui_screens", "title_screen")
+tracker.update_progress("characters", count=3)
+tracker.generate_report()
+```
+
+**Example Output:**
+```
+📊 OVERALL PROGRESS: 0/189 (0.0%)
+[░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 0.0%
+
+Characters: 0/48 (0.0%)
+[░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 0.0%
+
+Creats: 0/56 (0.0%)
+[░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 0.0%
+```
 
 ## Installation
 
-Requires **Node.js ≥18** and **pnpm ≥8**.
-
 ```bash
-pnpm install
+# Install Python dependencies
+pip install pillow  # For asset_validator.py image checks
 ```
 
-This installs all workspace dependencies: server, client and shared packages.
+## Development Workflow
 
----
+1. **Start of Project:**
+   - Run `content_tracker.py` to see baseline progress
+   - Run `asset_validator.py` to check directory structure
 
-## Running the Game
+2. **During Development:**
+   - Update `content_tracker.py` as you implement features
+   - Run `asset_validator.py` after adding new assets
+   - Use `crown_calculator.py` to verify crown balance
 
-### Development
+3. **Before Commits:**
+   - Run all validators to ensure quality
+   - Update progress tracker
+   - Check for warnings/errors
 
-Use two terminals (or tmux panes):
+## Future Tools (Planned)
 
-```bash
-# Terminal 1 – start server with nodemon
-pnpm --filter @game/server dev
+- **Dialogue Editor**: Visual editor for NPC dialogue trees
+- **Quest Builder**: Tool for creating and validating quests
+- **Balance Analyzer**: Analyze game balance (damage, rewards, economy)
+- **Sprite Sheet Generator**: Automate sprite sheet creation
+- **Audio Batch Converter**: Convert audio files to required formats
+- **Localization Manager**: Manage translations and text strings
 
-# Terminal 2 – start client with Vite
-pnpm --filter @game/client dev
-```
+## Contributing
 
-Or use the root helper script to run both concurrently:
-
-```bash
-pnpm dev
-```
-
-Open the client at <http://localhost:5173>. The server runs on <http://localhost:2567> with a `/health` route.
-
-### Production build
-
-```bash
-pnpm build       # builds the client
-pnpm start       # runs compiled server (served separately)
-```
-
----
-
-## Database
-
-Prisma is configured for PostgreSQL and ready for Supabase.
-
-```bash
-pnpm --filter @game/server db:generate  # generate Prisma client
-pnpm --filter @game/server db:push      # push schema to DB
-pnpm db:seed                            # insert starter data
-```
-
-Set `DATABASE_URL` in `packages/server/.env` to your Supabase Postgres pooler URI.
-
-For direct SQL import setup, see `SUPABASE_GAME_SETUP.md` and run `supabase/migrations/001_gtc_core.sql` in Supabase SQL Editor.
-
----
-
-## Architecture Overview
-
-### Packages
-
-- **@game/shared** – TypeScript definitions and cross‑platform utilities.
-- **@game/server** – Node.js + Colyseus authoritative server. Handles state, combat, AI and persistence.
-- **@game/client** – Phaser 3 WebGL client. Renders scenes and communicates via Colyseus.
-
-### Networking
-
-- WebSockets through Colyseus rooms.
-- Rooms: `LobbyRoom`, `StoryRoom`, `BattleRoom`.
-- Typed packets (join/leave, input, damage, loot, objectives, crown updates).
-- Server is authoritative: combat, cooldowns, loot rolls.
-- Client predicts only camera/UI; server reconciliation for entity positions.
-
-### Scenes
-
-1. **Boot** – Generates procedural textures.
-2. **Preload** – Shows loading bar.
-3. **MainMenu** – Title screen; "Forge Your Hero".
-4. **ForgeHero** – Choose weapon & name; spawns hero record.
-5. **Haven** – Safe zone hub, vendors and crown forge.
-6. **ForestZone** – Seeded layout shuffle with pickups & mini‑boss.
-7. **District01** – First inside‑walls district stub.
-8. **BattleArena** – 1v1 melee test.
-9. **CrownTrial01** – Ritual boss encounter (two phases).
-10. **Racing Track (stub)** – Enter via Haven menu.
-
-### HUD – Artifact Frame
-
-Top‑left: Hero HP & Stamina  
-Top‑right: Creat HP & Energy + Element crest  
-Bottom‑right: Mana ring, potions (max 6) and spells (max 12)  
-Outer orbs: Gems, Keys, Shards, Menus, Gold, Options  
-Center orb: Bonded menu (names, bond %, combo list)
-
-Locked elements are dimmed; tooltips explain unlocks.
-
-### Data Schema
-
-Prisma models: `Account`, `Hero`, `Creat`, `InventoryItem`, `CrownFragment`, `Progress`, `MatchHistory`.
-
-Each hero owns a creat, inventory items and crown fragments. Progress records unlocked districts and bond level. MatchHistory stores session results.
-
-### Content Pipeline
-
-- **Creats** – Add to `packages/server/src/content/creats.ts`. Include element, stats and progression.
-- **Weapons** – Add to `packages/server/src/content/weapons.ts`.
-- **Crowns** – Add recipes to `packages/server/src/content/crowns.ts`.
-- **Bosses** – Add to `packages/server/src/content/bosses.ts`.
-- Run `pnpm db:seed` after modifying seed data to populate the database.
-
-### Balancing Knobs
-
-- `POTION_CAP` = 6, `SPELL_CAP` = 12.
-- Mana cooldown ~40s. Carry 10–15.
-- Boss fights: ~5min first phase, ~10min total.
-- Combo chains: 3→6→12→18→24→30.
-- Crown rewards: gold, gems, shards, bixbite & buff multiplier.
-- Economy display abbreviates counts: `1.2K`, `75K`, `1.8M`.
-
-### Accessibility
-
-- All scenes use large readable fonts.
-- HUD scales with window size.
-- Simple color palette; high contrast mode in development (toggle in options).
-- Tooltips explain unavailable elements.
-
-### Testing & Telemetry Stubs
-
-- `pnpm --filter @game/shared test` runs vitest unit tests for shared logic.
-- Telemetry hooks (`logger.ts`) can be wired to real analytics later.
-
----
-
-## Roadmap
-
-1. Expand districts and add reclamation meta‑game.
-2. More creat species with unique abilities.
-3. Racing, mini‑games and advanced crown trials.
-4. Persisted matchmaking and guild systems.
-5. Richer art, animations and audio.
-
----
-
-## Smoke Test (Quick Walkthrough)
-
-1. **Create a hero**
-   - Run the dev environment.
-   - In Main Menu select "Forge Your Hero".
-   - Enter a name, choose Odyssey Sword.
-
-2. **Enter Forest**
-   - From Haven, click "Forest Run".
-   - Move with arrows/WASD; defeat the mini‑boss (red blob).
-
-3. **Return to Haven**
-   - After victory you auto‑return with loot and a crown fragment.
-
-4. **Start Crown Trial**
-   - From Haven select "Crown Trial I".
-   - Fight the Ember Reignlord.
-   - Use ice debuff (multitool) to free them.
-
-5. **Complete Crown**
-   - In Haven, interact with the forge table.
-   - Combine Gold Base + Sapphire to craft the crown.
-   - Receive rewards and witness HUD update.
-
-Enjoy exploring the early foundation of **Gather The Crown: Creats & Foes!**
+When adding new tools:
+1. Follow the existing code style
+2. Add docstrings and type hints
+3. Update this README
+4. Add usage examples
