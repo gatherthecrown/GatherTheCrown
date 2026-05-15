@@ -1,141 +1,82 @@
-<h1 align="center">
-  <a href="https://reactnative.dev/">
-    React Native
-  </a>
-</h1>
+# React Native WebView
 
-<p align="center">
-  <strong>Learn once, write anywhere:</strong><br>
-  Build mobile apps with React.
-</p>
+![star this repo](https://img.shields.io/github/stars/react-native-webview/react-native-webview?style=flat-square)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+[![NPM Version](https://img.shields.io/npm/v/react-native-webview.svg?style=flat-square)](https://www.npmjs.com/package/react-native-webview)
+![Npm Downloads](https://img.shields.io/npm/dm/react-native-webview.svg)
 
-<p align="center">
-  <a href="https://github.com/facebook/react-native/blob/HEAD/LICENSE">
-    <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="React Native is released under the MIT license." />
-  </a>
-  <a href="https://www.npmjs.org/package/react-native">
-    <img src="https://img.shields.io/npm/v/react-native?color=brightgreen&label=npm%20package" alt="Current npm package version." />
-  </a>
-  <a href="https://reactnative.dev/docs/contributing">
-    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs welcome!" />
-  </a>
-  <a href="https://twitter.com/intent/follow?screen_name=reactnative">
-    <img src="https://img.shields.io/twitter/follow/reactnative.svg?label=Follow%20@reactnative" alt="Follow @reactnative" />
-  </a>
-</p>
+**React Native WebView** is a community-maintained WebView component for React Native. It is intended to be a replacement for the built-in WebView (which was [removed from core](https://github.com/react-native-community/discussions-and-proposals/pull/3)).
 
-<h3 align="center">
-  <a href="https://reactnative.dev/docs/getting-started">Getting Started</a>
-  <span> · </span>
-  <a href="https://reactnative.dev/docs/tutorial">Learn the Basics</a>
-  <span> · </span>
-  <a href="https://reactnative.dev/showcase">Showcase</a>
-  <span> · </span>
-  <a href="https://reactnative.dev/docs/contributing">Contribute</a>
-  <span> · </span>
-  <a href="https://reactnative.dev/help">Community</a>
-  <span> · </span>
-  <a href="https://github.com/facebook/react-native/blob/HEAD/.github/SUPPORT.md">Support</a>
-</h3>
+### Maintainers
 
-React Native brings [**React**'s][r] declarative UI framework to iOS and Android. With React Native, you use native UI controls and have full access to the native platform.
+**Many thanks to these companies** for providing us with time to work on open source.  
+Please note that maintainers spend a lot of free time working on this too so feel free to sponsor them, **it really makes a difference.**
 
-- **Declarative.** React makes it painless to create interactive UIs. Declarative views make your code more predictable and easier to debug.
-- **Component-Based.** Build encapsulated components that manage their state, then compose them to make complex UIs.
-- **Developer Velocity.** See local changes in seconds. Changes to JavaScript code can be live reloaded without rebuilding the native app.
-- **Portability.** Reuse code across iOS, Android, and [other platforms][p].
-
-React Native is developed and supported by many companies and individual core contributors. Find out more in our [ecosystem overview][e].
-
-[r]: https://react.dev/
-[p]: https://reactnative.dev/docs/out-of-tree-platforms
-[e]: https://github.com/facebook/react-native/blob/HEAD/ECOSYSTEM.md
-
-## Contents
-
-- [Requirements](#-requirements)
-- [Building your first React Native app](#-building-your-first-react-native-app)
-- [Documentation](#-documentation)
-- [Upgrading](#-upgrading)
-- [How to Contribute](#-how-to-contribute)
-- [Code of Conduct](#code-of-conduct)
-- [License](#-license)
+- [Thibault Malbranche](https://github.com/Titozzz) ([Twitter @titozzz](https://twitter.com/titozzz)) from [Brigad](https://www.brigad.co/en-gb/about-us)  
+[*Sponsor me* ❤️ !](https://github.com/sponsors/Titozzz)
 
 
-## 📋 Requirements
+Windows and macOS are managed by Microsoft, notably:
+- [Alexander Sklar](https://github.com/asklar) ([Twitter @alexsklar](https://twitter.com/alexsklar)) from [React Native for Windows](https://microsoft.github.io/react-native-windows/)
+- [Chiara Mooney](https://github.com/chiaramooney) from [React Native for Windows @ Microsoft](https://microsoft.github.io/react-native-windows/)
 
-React Native apps may target iOS 15.1 and Android 7.0 (API 24) or newer. You may use Windows, macOS, or Linux as your development operating system, though building and running iOS apps is limited to macOS. Tools like [Expo](https://expo.dev) can be used to work around this.
+Shout-out to [Jamon Holmgren](https://github.com/jamonholmgren) from [Infinite Red](https://infinite.red) for helping a lot with the repo when he had more available time.
 
-## 🎉 Building your first React Native app
+### Disclaimer
 
-Follow the [Getting Started guide](https://reactnative.dev/docs/getting-started). The recommended way to install React Native depends on your project. Here you can find short guides for the most common scenarios:
+Maintaining WebView is very complex because it is often used for many different use cases (rendering SVGs, PDFs, login flows, and much more). We also support many platforms and both architectures of react-native.
 
-- [Trying out React Native][hello-world]
-- [Creating a New Application][new-app]
-- [Adding React Native to an Existing Application][existing]
+Since WebView was extracted from the React Native core, nearly 500 pull requests have been merged.  
+Considering that we have limited time, issues will mostly serve as a discussion place for the community, while **we will prioritize reviewing and merging pull requests.** 
 
-[hello-world]: https://snack.expo.dev/@samples/hello-world
-[new-app]: https://reactnative.dev/docs/getting-started
-[existing]: https://reactnative.dev/docs/integration-with-existing-apps
+### Platform compatibility
 
-## 📖 Documentation
+This project is compatible with **iOS**,  **Android**, **Windows** and **macOS**.  
+This project supports both **the old** (paper) **and the new architecture** (fabric).  
+This project is compatible with [expo](https://docs.expo.dev/versions/latest/sdk/webview/).
 
-The full documentation for React Native can be found on our [website][docs].
+### Getting Started
 
-The React Native documentation discusses components, APIs, and topics that are specific to React Native. For further documentation on the React API that is shared between React Native and React DOM, refer to the [React documentation][r-docs].
+Read our [Getting Started Guide](docs/Getting-Started.md). If any step seems unclear, please create a pull request.
 
-The source for the React Native documentation and website is hosted on a separate repository, [**@facebook/react-native-website**][repo-website].
+### Versioning
 
-[docs]: https://reactnative.dev/docs/getting-started
-[r-docs]: https://react.dev/learn
-[repo-website]: https://github.com/facebook/react-native-website
+This project follows [semantic versioning](https://semver.org/). We do not hesitate to release breaking changes but they will be in a major version.
 
-## 🚀 Upgrading
+### Usage
 
-Upgrading to new versions of React Native may give you access to more APIs, views, developer tools, and other goodies. See the [Upgrading Guide][u] for instructions.
+Import the `WebView` component from `react-native-webview` and use it like so:
 
-React Native releases are discussed [in this discussion repo](https://github.com/reactwg/react-native-releases/discussions).
+```tsx
+import React, { Component } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { WebView } from 'react-native-webview';
 
-[u]: https://reactnative.dev/docs/upgrading
-[repo-releases]: https://github.com/react-native-community/react-native-releases
+// ...
+const MyWebComponent = () => {
+  return <WebView source={{ uri: 'https://reactnative.dev/' }} style={{ flex: 1 }} />;
+}
+```
 
-## 👏 How to Contribute
+For more, read the [API Reference](./docs/Reference.md) and [Guide](./docs/Guide.md). If you're interested in contributing, check out the [Contributing Guide](./docs/Contributing.md).
 
-The main purpose of this repository is to continue evolving React Native core. We want to make contributing to this project as easy and transparent as possible, and we are grateful to the community for contributing bug fixes and improvements. Read below to learn how you can take part in improving React Native.
+### Common issues
 
-### [Code of Conduct][code]
+- If you're getting `Invariant Violation: Native component for "RNCWebView does not exist"` it likely means you forgot to run `react-native link` or there was some error with the linking process
+- If you encounter a build error during the task `:app:mergeDexRelease`, you need to enable multidex support in `android/app/build.gradle` as discussed in [this issue](https://github.com/react-native-webview/react-native-webview/issues/1344#issuecomment-650544648)
 
-Facebook has adopted a Code of Conduct that we expect project participants to adhere to.
-Please read the [full text][code] so that you can understand what actions will and will not be tolerated.
+#### Contributing
 
-[code]: https://code.fb.com/codeofconduct/
+Contributions are welcome, see [Contributing.md](https://github.com/react-native-webview/react-native-webview/blob/master/docs/Contributing.md)
 
-### [Contributing Guide][contribute]
+### License
 
-Read our [**Contributing Guide**][contribute] to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to React Native.
+MIT
 
-[contribute]: https://reactnative.dev/docs/contributing
+### Translations
 
-### [Open Source Roadmap][roadmap]
+This readme is available in:
 
-You can learn more about our vision for React Native in the [**Roadmap**][roadmap].
-
-[roadmap]: https://github.com/facebook/react-native/wiki/Roadmap
-
-### Good First Issues
-
-We have a list of [good first issues][gfi] that contain bugs which have a relatively limited scope. This is a great place to get started, gain experience, and get familiar with our contribution process.
-
-[gfi]: https://github.com/facebook/react-native/labels/good%20first%20issue
-
-### Discussions
-
-Larger discussions and proposals are discussed in [**@react-native-community/discussions-and-proposals**][repo-meta].
-
-[repo-meta]: https://github.com/react-native-community/discussions-and-proposals
-
-## 📄 License
-
-React Native is MIT licensed, as found in the [LICENSE][l] file.
-
-[l]: https://github.com/facebook/react-native/blob/main/LICENSE
+- [Brazilian portuguese](docs/README.portuguese.md)
+- [French](docs/README.french.md)
+- [Italian](docs/README.italian.md)
