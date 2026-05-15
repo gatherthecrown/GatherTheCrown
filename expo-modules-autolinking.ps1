@@ -23,17 +23,17 @@ $ret=0
 if (Test-Path "$basedir/node$exe") {
   # Support pipeline input
   if ($MyInvocation.ExpectingInput) {
-    $input | & "$basedir/node$exe"  "$basedir/../expo/bin/autolinking" $args
+    $input | & "$basedir/node$exe"  "$basedir/../../../expo/bin/autolinking" $args
   } else {
-    & "$basedir/node$exe"  "$basedir/../expo/bin/autolinking" $args
+    & "$basedir/node$exe"  "$basedir/../../../expo/bin/autolinking" $args
   }
   $ret=$LASTEXITCODE
 } else {
   # Support pipeline input
   if ($MyInvocation.ExpectingInput) {
-    $input | & "node$exe"  "$basedir/../expo/bin/autolinking" $args
+    $input | & "node$exe"  "$basedir/../../../expo/bin/autolinking" $args
   } else {
-    & "node$exe"  "$basedir/../expo/bin/autolinking" $args
+    & "node$exe"  "$basedir/../../../expo/bin/autolinking" $args
   }
   $ret=$LASTEXITCODE
 }

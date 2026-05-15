@@ -15,7 +15,7 @@ else
   export NODE_PATH="/mnt/c/Users/deanz/Downloads/Gather the Crown Creats and Foes/node_modules/.pnpm/expo@54.0.34_@babel+core@7._6d22cf553187b34cd4eb6dde1a4691dd/node_modules/expo/node_modules:/mnt/c/Users/deanz/Downloads/Gather the Crown Creats and Foes/node_modules/.pnpm/expo@54.0.34_@babel+core@7._6d22cf553187b34cd4eb6dde1a4691dd/node_modules:/mnt/c/Users/deanz/Downloads/Gather the Crown Creats and Foes/node_modules/.pnpm/node_modules:$NODE_PATH"
 fi
 if [ -x "$basedir/node" ]; then
-  exec "$basedir/node"  "$basedir/../expo/bin/autolinking" "$@"
+  exec "$basedir/node"  "$basedir/../../../expo/bin/autolinking" "$@"
 else
-  exec node  "$basedir/../expo/bin/autolinking" "$@"
+  exec node  "$basedir/../../../expo/bin/autolinking" "$@"
 fi
