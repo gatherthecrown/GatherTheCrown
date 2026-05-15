@@ -12,15 +12,9 @@
 **Many thanks to these companies** for providing us with time to work on open source.  
 Please note that maintainers spend a lot of free time working on this too so feel free to sponsor them, **it really makes a difference.**
 
-- [Thibault Malbranche](https://github.com/Titozzz) ([Twitter @titozzz](https://twitter.com/titozzz)) from [Brigad](https://www.brigad.co/en-gb/about-us)  
-[*Sponsor me* ❤️ !](https://github.com/sponsors/Titozzz)
-
-
-Windows and macOS are managed by Microsoft, notably:
-- [Alexander Sklar](https://github.com/asklar) ([Twitter @alexsklar](https://twitter.com/alexsklar)) from [React Native for Windows](https://microsoft.github.io/react-native-windows/)
-- [Chiara Mooney](https://github.com/chiaramooney) from [React Native for Windows @ Microsoft](https://microsoft.github.io/react-native-windows/)
-
-Shout-out to [Jamon Holmgren](https://github.com/jamonholmgren) from [Infinite Red](https://infinite.red) for helping a lot with the repo when he had more available time.
+- [Gather The Crown](https://github.com/gatherthecrown) ([Contact: gatherthecrown@gmail.com])
+[*Sponsor me* ❤️ !](cashapp: $gatherthecrown)
+ 
 
 ### Disclaimer
 
