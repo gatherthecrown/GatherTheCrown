@@ -1,6 +1,6 @@
 
 [build]
-  command = "npx --prefix ./packages/client vite build"
+  command = "pnpm install && pnpm --filter @game/client build"
   publish = "packages/client/dist"
   functions = "netlify-functions"
 
