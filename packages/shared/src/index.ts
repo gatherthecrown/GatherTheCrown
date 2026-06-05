@@ -3,3 +3,5 @@ export * from './constants';
 export * from './strings';
 export * from './messages';
 export * from './quests';
+export * from './resources';
+export * from './forestTrialDifficulty';

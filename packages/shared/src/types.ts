@@ -102,3 +102,5 @@ export interface SkillNode {
   skill: Skill;
   requires: string[];
 }
+
+export type FourKingdomId = 'aldermarch' | 'stormrage' | 'vastmalaise' | 'sunward';

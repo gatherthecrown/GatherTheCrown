@@ -417,23 +417,24 @@
  * 
  * EXAMPLE 3: QUEST PREP LOOP
  * 
- * 1. Hero accepts "Supply the Trading Post" side quest
+ * 1. Hero accepts "Sanct Isle Supply Run" side quest
  * 
  * 2. Quest board shows prep activities available:
- *    - Forage Forest Herbs (5 XP, 300s)
- *    - Stock Fish from Pier (4 XP, 240s)
- *    - Pick Berries (3 XP, 180s)
+ *    - Inspect Kingdom Supplies (7 XP, 320s)
+ *    - Pack Cargo Crates (7 XP, 300s)
+ *    - Check the Herd (6 XP, 260s)
  * 
  * 3. Hero spends 30 minutes doing activities:
- *    - Fishes: +4 Prep XP, 4x fresh_fish
- *    - Forages: +5 Prep XP, 3x herb_bundle
- *    - Picks berries: +3 Prep XP, 6x energy_berry
- *    Total: 12 Prep XP, materials collected
+ *    - Supply recon: +7 Prep XP, 1x supply_manifest
+ *    - Pack crates: +7 Prep XP, 2x cargo_crate
+ *    - Herd check: +6 Prep XP, 2x herd_feed
+ *    Total: 20 Prep XP, cargo ready for transport
  * 
- * 4. Turns in quest: "Supply Delivery"
+ * 4. Turns in quest: "Sanct Isle Cargo Convoy"
  *    - Quest complete: +reward
+ *    - Rewards include gold payment, XP, gems, shards, and rare cosmetic skins
  *    - Prep XP credited to account
- *    - Items used for delivery
+ *    - Items and cargo manifest used for delivery
  */
 
 // ═══════════════════════════════════════════════════════════════════════════

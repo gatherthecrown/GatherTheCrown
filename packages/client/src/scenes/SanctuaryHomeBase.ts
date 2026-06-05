@@ -187,12 +187,19 @@ export default class SanctuaryHomeBase extends Phaser.Scene {
         return;
       }
 
+      const requiredEmberFruit = 2;
+      if (gameRegistry.emberFruit < requiredEmberFruit) {
+        actionFeedback.setText('The clearing still needs trail-gathered supplies. Return from Sanctuary Trail or Forest Trials with Ember Fruit/resources first.');
+        actionFeedback.setColor('#fda4af');
+        return;
+      }
+
       gameRegistry.setHomeBaseDay1SuppliesGathered(true);
-      gameRegistry.setEmberFruit(gameRegistry.emberFruit + 2);
+      gameRegistry.setEmberFruit(gameRegistry.emberFruit - requiredEmberFruit);
       gameRegistry.setGold(gameRegistry.gold + 8);
       this.registry.set('emberFruit', gameRegistry.emberFruit);
       this.registry.set('gold', gameRegistry.gold);
-      actionFeedback.setText('Day 1 complete step: supplies secured (+2 Ember Fruit, +8 Gold). The Greenwood Clearing can now settle for the night.');
+      actionFeedback.setText(`Day 1 complete step: supplies secured and packed (${requiredEmberFruit} Ember Fruit used, +8 Gold). The Greenwood Clearing can now settle for the night.`);
       actionFeedback.setColor('#a7f3d0');
       refreshPrepUI();
     });
@@ -215,7 +222,17 @@ export default class SanctuaryHomeBase extends Phaser.Scene {
         actionFeedback.setColor('#86efac');
         return;
       }
+
+      const requiredEmberFruit = 1;
+      if (gameRegistry.emberFruit < requiredEmberFruit) {
+        actionFeedback.setText('You need more trail-collected supplies or Ember Fruit to craft the travel kit. Return from Sanctuary Trail or Forest Trials with materials.');
+        actionFeedback.setColor('#fcd34d');
+        return;
+      }
+
       gameRegistry.setHomeBaseDay2Crafted(true);
+      gameRegistry.setEmberFruit(gameRegistry.emberFruit - requiredEmberFruit);
+      this.registry.set('emberFruit', gameRegistry.emberFruit);
       actionFeedback.setText('Day 2 complete step: travel kit crafted, gear repaired, and provisions packed for the cliffside road.');
       actionFeedback.setColor('#fcd34d');
       refreshPrepUI();
@@ -245,12 +262,12 @@ export default class SanctuaryHomeBase extends Phaser.Scene {
         return;
       }
       if (!gameRegistry.hasCreatEgg) {
-        actionFeedback.setText('No egg in camp yet. Nesting cradle prepared anyway so future finds can be protected at the clearing.');
-        actionFeedback.setColor('#c4b5fd');
-      } else {
-        actionFeedback.setText('Egg cared for and secured for travel. Bond prep complete for departure from the cliffside clearing.');
-        actionFeedback.setColor('#c4b5fd');
+        actionFeedback.setText('No egg in camp yet. Find a Creat Egg on Sanctuary Trail or Forest Trials before this Day 2 task can be completed.');
+        actionFeedback.setColor('#fda4af');
+        return;
       }
+      actionFeedback.setText('Egg cared for and secured for travel. Bond prep complete for departure from the cliffside clearing.');
+      actionFeedback.setColor('#c4b5fd');
       gameRegistry.setHomeBaseDay2EggCared(true);
       refreshPrepUI();
     });
@@ -355,11 +372,11 @@ export default class SanctuaryHomeBase extends Phaser.Scene {
       } else if (days === 0) {
         readinessText.setText(`Home Base Readiness: Day ${days}/2 complete. ${daysLeft} prep days remain.`);
         readinessText.setColor('#67e8f9');
-        dayPlanText.setText('Day 1 plan: settle in, inspect damage, and gather missing supplies before resting.');
+        dayPlanText.setText('Day 1 plan: settle in, inspect damage, and gather supply tokens or trail Ember Fruit before resting.');
       } else {
         readinessText.setText(`Home Base Readiness: Day ${days}/2 complete. ${daysLeft} prep day remains.`);
         readinessText.setColor('#67e8f9');
-        dayPlanText.setText('Day 2 plan: craft travel essentials, rest, care for egg (or secure nest gear), and prepare departure route.');
+        dayPlanText.setText('Day 2 plan: craft travel essentials, rest, care for egg, and prepare departure route with trail-collected materials.');
       }
 
       const day1Checklist = [

@@ -1,3 +1,5 @@
+import { FourKingdomId } from './types';
+
 export interface QuestObjective {
   id: string;
   description: string;
@@ -12,8 +14,6 @@ export interface Quest {
   level: number;
   objectives: QuestObjective[];
 }
-
-export type FourKingdomId = 'aldermarch' | 'stormrage' | 'vastmalaise' | 'sunward';
 
 export interface KingdomKeyholder {
   name: string;

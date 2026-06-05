@@ -25,7 +25,7 @@ import AudioManager from '../audio/AudioManager';
 import { createLocationShortcutHandler } from '../utils/locationShortcuts';
 import { buildKingdomQuestMenuEntries } from '../systems/KingdomQuestMenuModel';
 import { canOpenKingdomDoor } from '../systems/KingdomAccessControl';
-import type { FourKingdomId } from '@game/shared';
+import { KINGDOM_RESTOCK_REQUESTS, getRestockRequestSupplySummary, type FourKingdomId } from '@game/shared';
 import { getMainlandTravelUiOptions } from '../data/LocationSystem';
 
 interface AmbientNpc {
@@ -66,7 +66,7 @@ interface FishingSpot {
 }
 
 // ─── Town Request Types ───────────────────────────────────────────────────────
-type TownRequestType = 'trinket' | 'ingredient' | 'delivery';
+type TownRequestType = 'trinket' | 'ingredient' | 'delivery' | 'restock';
 type TownRequestStatus = 'queued' | 'available' | 'active' | 'complete';
 
 interface TownRequest {
@@ -75,6 +75,10 @@ interface TownRequest {
   npcName: string;           // who gives the request
   targetNpcName?: string;    // delivery: who receives
   itemName: string;          // trinket / ingredient / note name
+  requestName?: string;      // restock: shared supply request title
+  kingdomId?: FourKingdomId;
+  trigger?: 'post-restoration' | 'post-clearance' | 'post-castle-clear';
+  supplySummary?: string;
   street: string;
   routeHint: string;
   gcReward: number;
@@ -1206,7 +1210,7 @@ export default class SanctuaryTown extends Phaser.Scene {
         return;
       }
       // Ingredient return to request NPC
-      if (activeReq.type === 'ingredient' && activeReq.npcName === npc.name && this.ingredientGatheredId === activeReq.id) {
+      if ((activeReq.type === 'ingredient' || activeReq.type === 'restock') && activeReq.npcName === npc.name && this.ingredientGatheredId === activeReq.id) {
         this.completeRequest(activeReq);
         return;
       }
@@ -1269,6 +1273,17 @@ export default class SanctuaryTown extends Phaser.Scene {
         return true;
       }
 
+      if (req.type === 'restock') {
+        this.ingredientGatheredId = req.id;
+        this.removeRequestMarker(req);
+        AudioManager.playPickup('item');
+        this.showMessage(
+          `Collected: ${req.requestName} for ${req.npcName}. Return it to complete the supply run.`,
+          '#60a5fa'
+        );
+        return true;
+      }
+
       if (req.type === 'delivery' && this.carriedNoteFor === '') {
         this.carriedNoteFor = req.targetNpcName!;
         this.removeRequestMarker(req);
@@ -1304,6 +1319,11 @@ export default class SanctuaryTown extends Phaser.Scene {
       this.showMessage(
         `${req.npcName}: "Could you gather some ${req.itemName} from ${req.street}? ${req.routeHint}"`,
         '#bbf7d0'
+      );
+    } else if (req.type === 'restock') {
+      this.showMessage(
+        `${req.npcName}: "This supply request needs ${req.requestName}. ${req.supplySummary}. ${req.routeHint}"`,
+        '#60a5fa'
       );
     } else if (req.type === 'delivery') {
       this.showMessage(
@@ -1358,9 +1378,9 @@ export default class SanctuaryTown extends Phaser.Scene {
 
   private getRequestCadenceOrder() {
     const typePriorityByShift: Record<SanctuaryShift, TownRequestType[]> = {
-      morning: ['ingredient', 'delivery', 'trinket'],
-      afternoon: ['delivery', 'ingredient', 'trinket'],
-      evening: ['trinket', 'delivery', 'ingredient']
+      morning: ['ingredient', 'restock', 'delivery', 'trinket'],
+      afternoon: ['delivery', 'restock', 'ingredient', 'trinket'],
+      evening: ['restock', 'trinket', 'delivery', 'ingredient']
     };
     const typeOrder = typePriorityByShift[this.townShift] ?? typePriorityByShift.morning;
     const emphasisStreets = this.getShiftEmphasisStreets();
@@ -1409,6 +1429,8 @@ export default class SanctuaryTown extends Phaser.Scene {
       this.showMessage(`${npc.name}: "Still looking for that ${req.itemName}? Re-check ${req.street}. ${req.routeHint}"`, '#fde68a');
     } else if (req.type === 'ingredient') {
       this.showMessage(`${npc.name}: "Any luck finding ${req.itemName}? Follow ${req.street}. ${req.routeHint}"`, '#bbf7d0');
+    } else if (req.type === 'restock') {
+      this.showMessage(`${npc.name}: "You still need to return ${req.requestName} to complete the resupply. ${req.routeHint}"`, '#60a5fa');
     } else if (req.type === 'delivery') {
       if (this.carriedNoteFor) {
         this.showMessage(`${npc.name}: "You have the note - follow ${req.street} to ${req.targetNpcName}."`, '#c4b5fd');
@@ -1421,7 +1443,12 @@ export default class SanctuaryTown extends Phaser.Scene {
   // ─── Request marker visual management ─────────────────────────────────────
 
   private spawnRequestMarker(req: TownRequest) {
-    const colors: Record<TownRequestType, number> = { trinket: 0xfbbf24, ingredient: 0x4ade80, delivery: 0xa855f7 };
+    const colors: Record<TownRequestType, number> = {
+      trinket: 0xfbbf24,
+      ingredient: 0x4ade80,
+      delivery: 0xa855f7,
+      restock: 0x60a5fa
+    };
     const col = colors[req.type];
     req.markerObj = this.add.circle(req.markerX!, req.markerY!, 12, col, 0.9).setDepth(15);
     req.markerPulse = this.add.circle(req.markerX!, req.markerY!, 22, col, 0.2).setDepth(14);
@@ -1464,7 +1491,7 @@ export default class SanctuaryTown extends Phaser.Scene {
 
     const hasItem =
       (active.type === 'trinket' && this.heldTrinketId === active.id)
-      || (active.type === 'ingredient' && this.ingredientGatheredId === active.id)
+      || ((active.type === 'ingredient' || active.type === 'restock') && this.ingredientGatheredId === active.id)
       || (active.type === 'delivery' && this.carriedNoteFor === active.targetNpcName);
 
     let targetX = active.markerX;
@@ -1807,6 +1834,40 @@ export default class SanctuaryTown extends Phaser.Scene {
         markerX: 1180,
         markerY: 350,
       },
+      {
+        id: 'restock_01',
+        type: 'restock',
+        npcName: this.requestContacts.trinket,
+        requestName: KINGDOM_RESTOCK_REQUESTS.find((req) => req.id === 'aldermarch-smithy-restock')?.requestName ?? 'Smithy Restock',
+        kingdomId: KINGDOM_RESTOCK_REQUESTS.find((req) => req.id === 'aldermarch-smithy-restock')?.kingdomId,
+        trigger: KINGDOM_RESTOCK_REQUESTS.find((req) => req.id === 'aldermarch-smithy-restock')?.trigger,
+        itemName: 'Smithy Resupply Crate',
+        supplySummary: getRestockRequestSupplySummary(KINGDOM_RESTOCK_REQUESTS.find((req) => req.id === 'aldermarch-smithy-restock') ?? KINGDOM_RESTOCK_REQUESTS[0]),
+        street: 'Trading Poste',
+        routeHint: 'Collect the resupply crate in Market Stretch and return to the Trading Poste contact.',
+        gcReward: 16,
+        materialReward: '1× Basic Repair Kit',
+        status: 'queued',
+        markerX: 980,
+        markerY: 910,
+      },
+      {
+        id: 'restock_02',
+        type: 'restock',
+        npcName: this.requestContacts.deliveryFrom,
+        requestName: KINGDOM_RESTOCK_REQUESTS.find((req) => req.id === 'stormrage-inn-restock')?.requestName ?? 'Inn Restock',
+        kingdomId: KINGDOM_RESTOCK_REQUESTS.find((req) => req.id === 'stormrage-inn-restock')?.kingdomId,
+        trigger: KINGDOM_RESTOCK_REQUESTS.find((req) => req.id === 'stormrage-inn-restock')?.trigger,
+        itemName: 'Inn Supply Bundle',
+        supplySummary: getRestockRequestSupplySummary(KINGDOM_RESTOCK_REQUESTS.find((req) => req.id === 'stormrage-inn-restock') ?? KINGDOM_RESTOCK_REQUESTS[1]),
+        street: 'Fishers Walk',
+        routeHint: 'Gather island-produced stores near Fishers Walk and return to the town contact.',
+        gcReward: 14,
+        materialReward: '1× Common Herb',
+        status: 'queued',
+        markerX: 1320,
+        markerY: 1040,
+      },
     ];
 
     // Prioritize requests based on current shift's active streets
@@ -1823,7 +1884,7 @@ export default class SanctuaryTown extends Phaser.Scene {
       .setStrokeStyle(2, 0xfbbf24, 0.8)
       .setDepth(5);
     this.add.text(bx, by - 20, 'Town Requests', { color: '#fde68a', fontSize: '13px', fontStyle: 'bold' }).setOrigin(0.5).setDepth(6);
-    this.add.text(bx, by + 2, '★ Trinket  ★ Ingredient\n★ Delivery (street routes)', { color: '#e5e7eb', fontSize: '10px', align: 'center' }).setOrigin(0.5).setDepth(6);
+    this.add.text(bx, by + 2, '★ Trinket  ★ Ingredient\n★ Delivery (street routes)  ★ Restock', { color: '#e5e7eb', fontSize: '10px', align: 'center' }).setOrigin(0.5).setDepth(6);
     this.add.text(
       bx,
       by + 34,

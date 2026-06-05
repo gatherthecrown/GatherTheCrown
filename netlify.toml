@@ -1,3 +1,16 @@
+[build]
+  base = "."
+  command = "pnpm --filter @game/client build"
+  publish = "packages/client/dist"
+
+[context.production.environment]
+  NODE_VERSION = "18"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = true
 
 [build]
   command = "corepack enable && pnpm install && pnpm --filter @game/client build"

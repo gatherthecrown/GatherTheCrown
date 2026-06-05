@@ -120,6 +120,36 @@ export const GATHERING_ACTIVITIES: Record<string, PrepActivity> = {
       gold: 30
     },
     difficulty: 'easy'
+  },
+  kingdom_supply_recon: {
+    id: 'kingdom_supply_recon',
+    name: 'Inspect Kingdom Supplies',
+    description: 'Visit the kingdom warehouse and confirm which cargo is ready for Sanct Isle.',
+    category: 'gathering',
+    prepXpReward: 7,
+    duration: 320,
+    location: 'Kingdom Docks',
+    rewards: {
+      items: [{ id: 'supply_manifest', quantity: 1 }],
+      gold: 75,
+      questProgress: 10
+    },
+    difficulty: 'moderate'
+  },
+  livestock_herd_check: {
+    id: 'livestock_herd_check',
+    name: 'Check the Herd',
+    description: 'Inspect the livestock that will travel to Sanct Isle and make sure the animals are healthy.',
+    category: 'gathering',
+    prepXpReward: 6,
+    duration: 260,
+    location: 'Sunward Pastures',
+    rewards: {
+      items: [{ id: 'herd_feed', quantity: 2 }],
+      gold: 60,
+      questProgress: 8
+    },
+    difficulty: 'moderate'
   }
 };
 
@@ -182,6 +212,24 @@ export const CRAFTING_ACTIVITIES: Record<string, PrepActivity> = {
       gold: 150
     },
     difficulty: 'challenging'
+  },
+  pack_cargo_crates: {
+    id: 'pack_cargo_crates',
+    name: 'Pack Cargo Crates',
+    description: 'Organize and pack the kingdom cargo for its voyage to Sanct Isle.',
+    category: 'crafting',
+    prepXpReward: 7,
+    duration: 300,
+    location: 'Merchant Wharf',
+    requirements: {
+      itemsNeeded: [{ id: 'rope', quantity: 2 }, { id: 'cloth', quantity: 1 }]
+    },
+    rewards: {
+      items: [{ id: 'cargo_crate', quantity: 2 }],
+      gold: 80,
+      questProgress: 10
+    },
+    difficulty: 'moderate'
   },
   craft_kit: {
     id: 'craft_kit',

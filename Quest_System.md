@@ -201,6 +201,150 @@ Example: "Collect 12 resources from Caverns"
 
 ---
 
+## 🎒 Supply Run Side Quests
+- **World Logic:** Sanctuary Isle survives through rider treaties and supply accords. The isle provides trained riders, emergency response, trail clearing, escort work, creat handling, and hybrid training knowledge.
+- **Exchange:** In return, kingdoms send lumber, ore, grains, livestock, cloth, medicine ingredients, tools, ship parts, and specialty materials.
+- **Why kingdoms agree:** Sanctuary is neutral, strategically useful, trusted with riders, and politically safer than direct kingdom cooperation. Even rival kingdoms trade with Sanctuary because everyone eventually needs riders.
+- **Culture:** This makes Sanctuary feel community-oriented, practical, welcoming, and modestly stable. It explains why the isle is a protected rider harbor sustained through alliances rather than a self-sufficient empire.
+- **Hero work = kingdom supplies:** Rider missions are not just story beats; they are the backbone of Sanctuary’s economy and supply chain.
+
+### Supply Run Quest Template
+- **Quest Type:** Side Quest / Supply Run
+- **Requestor:** Sanctuary authority, isle merchant, depot manager
+- **Origin:** Mainland kingdom or first kingdom land crossing
+- **Destination:** Sanctuary Isle or island supply depot
+- **Cargo:** Lumber, ore, grains, livestock, cloth, medicine, tools, ship parts, specialty materials
+- **Transport:** `cart/wagon`, `ship/ferry`, `convoy`
+- **Objective List:**
+  - Travel to supplier location
+  - Locate contact or stockpile
+  - Secure cargo and load transport
+  - Defend the route / escort cargo back
+  - Deliver intact supplies to Sanctuary
+- **Rewards:** Gold payment, XP, regional materials, shards/gems, possible cosmetics or trade goods
+- **Bonus Conditions:** Speed, cargo intact, minimal losses, escort success
+
+### Kingdom Export Identity
+- **Forest / Nature kingdoms:** lumber, herbs, paper, moss gems, bark shards, growth crystals
+- **Ember / Forge kingdoms:** ore, metal, forge tools, ember shards, forge stones, heat cores, weapon skins
+- **Plains / Agricultural kingdoms:** grains, livestock, cloth, feed, preserved goods, harvest charms
+- **Coastal / Storm kingdoms:** salt, fish oil, rope, sailcloth, tide gems, pearl fragments, stormglass
+- **Frost kingdoms:** crystals, preserved goods, iceglass, snow pelts, frost shards
+
+### Supply & Production Needs
+- **Core consumables:** grain, preserved meats/fish, bread, salt, cooking oil, medicinal herbs, livestock feed, cloth, rope, waterskins.
+- **Heavy production inputs:** iron ore/ingots, lumber/timber, stone, bronze/brass, leather, sailcloth, forge fuel, nails, tools.
+- **High-demand materials:** iron is the most used industrial material for weapons, armor, siege gear, and construction. Lumber is equally essential for buildings, carts, ships, crates, and fortifications.
+- **Food/food production:** fields, ranches, fisheries, wheat mills, herb gardens, and pantry stores keep Sanctuary alive. Grain and preserved goods are continuous demand, not one-off rewards.
+- **Craft and maintenance supplies:** tools, forge materials, rope, lantern oil, cloth, leather, and rope are needed for every repair, caravan, and island building.
+- **Strategic luxury/quest items:** gems, shards, sacred oils, incense, rare herbs, and imported jewels are lower volume but high priority for special rewards, faction missions, and seasonal deliveries.
+
+### Production by Kingdom Type
+- **Forest kingdoms:** produce timber, herbal medicine, paper, fiber cloth, olive oil, and natural dyes. Heavy demand for lumber and herbs is constant.
+- **Forge kingdoms:** produce iron, copper/brass, tool steel, weapons, armor components, and forge stones. Iron is the most heavily used resource here.
+- **Plains kingdoms:** produce grain, livestock, cloth, leather, feed, and preserved food. These are the long-term staples that keep the isle fed and rested.
+- **Coastal kingdoms:** produce salt, fish oil, rope, sailcloth, nets, and sea gems. Ship and ferry routes depend on these supplies.
+- **Frost kingdoms:** produce crystal, iceglass, snow pelts, preserved goods, and cold-weather materials. They also provide rare, high-value goods for premium quests.
+
+### Most Heavily Used Supplies
+- **Iron / metal:** primary for weapons, armor, equipment, repair, and heavy delivery missions.
+- **Lumber / wood:** essential for construction, wagons, docks, crates, and island infrastructure.
+- **Grain / preserved food:** essential daily consumption for Sanctuary residents and expedition crews.
+- **Rope / cloth / leather:** constant maintenance and transport needs for caravans, ships, shelters, saddles, and sails.
+- **Fuel / forge materials:** critical for camp cooking, heat-based crafting, forge work, and lanterns.
+- **Medicinal herbs / supplies:** important for healing, bond care, and crisis response — high priority for recovery and rescue missions.
+
+### Sanctuary Isle Production
+- **Island strengths:** Sanctuary Isle is a shelter and training hub, not a bulk industrial center. Its production is best expressed as specialist goods, rider support services, and preserved supplies.
+- **Produce/grow locally:** cured fish and salt-cured provisions, preserved grains, medicinal salves, blessed oils, herb blends, rope braids, treated leather, pack saddles, and light transport gear.
+- **Unique sanctuary goods:** rider harnesses, convoy kits, route scrolls, repair bundles, sacred talismans, emergency beacon lanterns, and hybrid creat feed mixes.
+- **Services as supply:** the isle exports more than items — it can send rider escorts, repair crews, guides, intelligence on safe routes, and stabilized caravan teams.
+- **Island advantage:** kingdoms may lack the protected space, skilled rider labor, or sanctified medicine recipes that Sanctuary has. This makes island deliveries valuable even if mainland kingdoms can produce raw materials.
+
+### Kingdom Replenishment After Restoration
+- **Restoration flow:** abandoned/wrecked homes, shops, and castles create local shortages. After a district is cleared and repaired, the next phase is restocking.
+- **Replenishment mission types:**
+  - **Shop restock:** herbs, cloth, metal parts, dyes, tool kits, and merchant goods.
+  - **Town rebuilding:** lumber, roofing tiles, nails, glass, furniture, lighting oil, and cooking supplies.
+  - **Forge revival:** iron ore, coal, tongs, anvils, steel ingots, and maintenance tools.
+  - **Dock repair:** rope, sailcloth, tar, lantern oil, fishing nets, barrel wood, and salt.
+  - **Castle recovery:** banners, armor, weapons, siege rope, gate repairs, and food stores.
+- **Delayed demand:** once a kingdom is restored, its population begins consuming supplies again, which creates a second wave of supply quests beyond the initial purge of enemies.
+- **Quest triggers:** kingdom quests should shift from “clear and conquer” to “restore and restock” once a location is liberated.
+- **Narrative fit:** this makes the world feel alive — Sanctuary helps heal a kingdom, then helps it recover by replenishing the goods lost during occupation.
+
+### Why this matters
+- Sanctuary should feel like a resilient support hub that both imports raw materials and exports specialist goods.
+- Restored kingdoms should generate meaningful follow-up requests: the fight is over, but the supply chain is just starting.
+- This gives players a clear progression from reclamation to recovery to long-term trade.
+
+### Implementation Note
+- This section is currently design-level. The next step is to model this in the quest system with concrete quest definitions, request generation, reward tables, and route-specific travel/escort rules.
+
+### Travel Structure
+- **First Kingdom / Land Crossing**
+  - Closest mainland kingdom is accessible by bridge/road crossing.
+  - Carts and wagons are possible.
+  - Easier civilian trade and early progression.
+  - This kingdom becomes the starter mainland hub for escort and cargo runs.
+- **Other Kingdoms**
+  - Require ships, ferries, convoys, and trade fleets.
+  - Create longer journeys, weather risks, pirate threats, and multi-rider expeditions.
+  - Support cargo escort gameplay with coastal hazards and open-sea tension.
+
+### Gameplay Loop
+1. **Sanctuary receives request**
+   - Example: Isle Iron needs ore, Herb & Brew Isle needs dried moss, Hatchling Hallow needs feed grain, Trading Poste awaits shipment.
+2. **Hero accepts the run**
+   - Solo, paired, or as a small rider convoy.
+3. **Travel outward**
+   - Along roads, forest paths, ferries, crossings, and kingdom outskirts.
+   - Gameplay includes gathering, scouting, optional encounters, weather, travelers, ambushes, and creatures.
+4. **Locate supplier/contact**
+   - Example targets: mill owner, forge merchant, ranch keeper, dock quartermaster, grain steward.
+   - Sometimes supplies are delayed, stolen, or lost, which creates natural story gameplay.
+5. **Retrieve cargo**
+   - Cargo types: lumber, livestock, crates, ore, medicine, rope, cloth, feed, fish barrels, lantern oil.
+6. **Return trip**
+   - Luggage adds tension: cargo slows movement, enemies target it, escort mechanics matter.
+   - The feeling becomes “bringing something home” instead of “clearing another dungeon.”
+
+### Why this works
+- Roads become trade arteries, lifelines, and rider routes.
+- Kingdom relationships become visible through imports: Ashenreach metals keep Isle Iron running, Verdantwild grain keeps Sanctuary fed, Stormspire rope keeps ferries moving.
+- The outside world and Sanctuary depend on each other.
+- Early game can focus on small satchels and local deliveries; mid game on wagons and ferry cargo; late game on convoys, storm crossings, and emergency relief shipments.
+- These quests should feel responsible, hopeful, practical, and adventurous — not mindless fetch quests.
+
+### Reward Structure
+- **Base rewards:** GC (gold/currency), XP, and materials.
+- **Regional reward themes:**
+  - Forest/Nature kingdoms: moss gems, bark shards, herbal bundles, growth crystals, vine cord.
+  - Ember/Forge kingdoms: ember shards, forge stones, metal chunks, heat cores, weapon skins.
+  - Coastal/Storm kingdoms: tide gems, sailcloth, pearl fragments, stormglass, anchor charms.
+  - Frost kingdoms: frost shards, crystal dust, preserved goods, iceglass, snow pelts.
+- **Bonus rewards:**
+  - Hero cosmetics: cloaks, emblems, cart skins, ferry banners, weapon appearances, lantern styles.
+  - Rare finds: hidden caches, abandoned cargo, roadside relics, storm wreckage.
+  - Delivery quality bonuses: speed bonus, cargo intact bonus, storm route bonus, no supply loss bonus, passenger protection bonus.
+- **Reputation layer:** Reliable supply runs unlock better contracts, trade discounts, special materials, kingdom cosmetics, and convoy invitations.
+- **Sanctuary payoff:** Successful missions should visibly benefit the isle — market stalls restock, tavern chatter changes, feed supplies arrive, and NPCs notice the difference.
+
+### What still needs implementation
+- Quest system: Add a supply-run quest generator and request board for Sanctuary supply missions.
+- World routes: Model first-kingdom land crossings vs. coastal ferry/ship routes in gameplay.
+- Cargo mechanics: Represent cargo size, transport mode, and escort difficulty.
+- Rewards: Tie regional reward themes into actual item tables and unlockable materials.
+- Reputation: Add a lightweight trust system so repeat success improves kingdom contracts.
+- Visibility: Show supply impact on Sanctuary through NPC dialogue, market restocks, and isle scenes.
+
+### Emotional tone
+- Supply runs give heroes ordinary responsibilities and real-world meaning.
+- They reward money, materials, reputation, progression, rare items, and rider status.
+- This makes traveling for supplies feel like actual professional rider work, not just symbolic story questing.
+
+---
+
 ## 💰 REWARD CALCULATION
 
 ### XP Rewards

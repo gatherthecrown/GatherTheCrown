@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { gameRegistry } from '../registry/GameRegistry';
 import { assessHeroCreatNeeds } from '../systems/HeroCreatNeedsTracker';
+import { FOREST_TRIAL_ROUTE_PROFILES } from '@game/shared';
 
 export default class ForestTrialsGate extends Phaser.Scene {
   constructor() {
@@ -46,44 +47,7 @@ export default class ForestTrialsGate extends Phaser.Scene {
       fontStyle: 'bold'
     }).setOrigin(0.5);
 
-    const routes = [
-      {
-        id: 'gentle',
-        title: 'Gentle Trail',
-        color: 0x14532d,
-        stroke: 0x22c55e,
-        textColor: '#86efac',
-        summary: 'Best for learning movement, pickups, healing, and basic combat.',
-        detail: 'Low pressure entry. Clear guidance, light enemy density, and the safest route to begin building confidence.',
-        eta: '8-10 min',
-        enemyCount: '3 foes',
-        rewardTier: 'More food / starter supplies'
-      },
-      {
-        id: 'rider',
-        title: 'Rider\'s Path',
-        color: 0x1e3a8a,
-        stroke: 0x3b82f6,
-        textColor: '#93c5fd',
-        summary: 'Balanced danger and reward. The intended route for most riders.',
-        detail: 'A fuller challenge with more pressure, more resource flow, and stronger preparation for bond and home-base systems.',
-        eta: '12-15 min',
-        enemyCount: '5 foes',
-        rewardTier: 'Balanced loot / crafting mats'
-      },
-      {
-        id: 'sovereign',
-        title: 'Sovereign Thicket',
-        color: 0x4a044e,
-        stroke: 0xa855f7,
-        textColor: '#d8b4fe',
-        summary: 'Hardest route. Greater pressure, sharper resource decisions, and less forgiveness.',
-        detail: 'For players who want to push early. Expect denser threats and a steeper climb through advanced trials.',
-        eta: '16-20 min',
-        enemyCount: '7 foes',
-        rewardTier: 'High-value materials / risk-reward'
-      }
-    ];
+    const routes = Object.values(FOREST_TRIAL_ROUTE_PROFILES);
 
     routes.forEach((route, index) => {
       const x = 160 + index * 240;
